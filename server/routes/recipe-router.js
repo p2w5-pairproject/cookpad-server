@@ -8,6 +8,7 @@ router.get('/:id', RecipeController.getOneRecipe) //lihat recipe user lain atau 
 router.post('/', RecipeController.createRecipe)
 router.put('/:id', RecipeController.updateRecipe)
 router.delete('/:id', RecipeController.deleteRecipe )
+router.get('/search', RecipeController.searchRecipe)
 
 
 module.exports = router

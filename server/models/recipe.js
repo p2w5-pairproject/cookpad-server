@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Recipe.belongsTo(models.User)
         Recipe.belongsToMany(models.Ingredient,{
-        trough: models.RecipeIngredient,
+        through: models.RecipeIngredient,
         foreignKey: "RecipeId"
       })
       // define association here

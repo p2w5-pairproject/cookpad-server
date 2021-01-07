@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Ingredient.belongsToMany(models.Recipe,{
-        trough: models.RecipeIngredient,
+        through: models.RecipeIngredient,
         foreignKey: "IngredientId"
       })
 
