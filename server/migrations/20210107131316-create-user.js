@@ -1,17 +1,21 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('RecipeIngredients', {
+    await queryInterface.createTable('Users', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      RecipeId: {
+      email: {
+        type: Sequelize.STRING,
+        unque:true
+      },
+      password: {
         type: Sequelize.STRING
       },
-      IngredientId: {
+      name: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -25,6 +29,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('RecipeIngredients');
+    await queryInterface.dropTable('Users');
   }
 };
