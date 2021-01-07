@@ -20,7 +20,7 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.addColumn("Recipes", "UserId", {})
+    await queryInterface.removeColumn("Recipes", "UserId", {})
     /**
      * Add reverting commands here.
      *

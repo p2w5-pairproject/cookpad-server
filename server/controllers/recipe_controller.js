@@ -1,4 +1,4 @@
-const { Recipe, Ingredient, RecipeIngredient } = require('../models')
+const { Recipe } = require('../models')
 const axios = require('axios')
 
 class RecipeController {
@@ -17,8 +17,7 @@ class RecipeController {
             let id = req.params.id
 
             Recipe.findOne({
-            where: {id},
-            include: [RecipeIngredient]
+            where: {id}
             }) 
             .then(data => {
                   res.status(200).json(data)
@@ -33,7 +32,8 @@ class RecipeController {
             let newRecipe = {
                   name: req.body.name,
                   description: req.body.description,
-                  step: req.body.step
+                  step: req.body.step,
+                  ingredient: req.body.ingredient
             }
 
             let newIngredient = {
@@ -62,7 +62,8 @@ class RecipeController {
             let updatedRecipe = {
                   name: req.body.name,
                   description: req.body.description,
-                  steps: req.body.steps
+                  steps: req.body.steps,
+                  ingredient: req.body.ingredient
             }
 
             Recipe.update(updatedRecipe)
@@ -87,12 +88,25 @@ class RecipeController {
 
       static searchRecipe(req, res, next) {
             let meal = req.query.s
-            
-            let foodRecipe = `https://api.edamam.com/search?q=chicken&app_id=23daa481&app_key=2d7e52cf491550c383b2b56ae595fd54&from=0&to=3&calories=591-722&health=alcohol-free`
+                  console.log(meal);
+            let foodRecipe = `https://api.edamam.com/search?q=${meal}&app_id=23daa481&app_key=2d7e52cf491550c383b2b56ae595fd54&from=0&to=3&calories=591-722&health=alcohol-free`
 
             axios.get(foodRecipe)
                   .then(response => {
-                        res.send(response)
+                        // console.log(response.data);
+                        let result = response.data.hits
+
+                        let arr = []
+                              result.forEach(el => {
+                                    arr.push({
+                                          name: el.recipe.label,
+                                          ingredient: el.recipe.ingredientLines,
+                                          calories: el.recipe.calories
+                                    })
+                              })
+
+                        res.send(arr)
+                        // console.log(result);
                   })
                   .catch(err => {
                         res.send(err)
