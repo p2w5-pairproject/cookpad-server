@@ -16,9 +16,25 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Recipe.init({
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    step: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      }
+    },
+    step: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      }
+    },
+    UserId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Recipe',
