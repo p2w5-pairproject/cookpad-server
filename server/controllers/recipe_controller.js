@@ -1,6 +1,5 @@
 const { Recipe } = require('../models')
 const axios = require('axios')
-var unirest = require("unirest");
 
 class RecipeController {
       static getRecipe(req, res, next) {
@@ -90,23 +89,24 @@ class RecipeController {
       static searchRecipe(req, res, next) {
             let meal = req.query.s
                   console.log(meal);
-            let foodRecipe = `https://www.themealdb.com/api/json/v1/1/search.php?s=${meal}`
+            let foodRecipe = `https://api.edamam.com/search?q=${meal}&app_id=23daa481&app_key=2d7e52cf491550c383b2b56ae595fd54&from=0&to=3&calories=591-722&health=alcohol-free`
 
             axios.get(foodRecipe)
                   .then(response => {
-                        // console.log(response);
-                        let result = response.data.meals
+                        // console.log(response.data);
+                        let result = response.data.hits
 
                         let arr = []
                               result.forEach(el => {
-                                    result.push({
-                                          name: el.label,
-                                          description: el.label,
-                                          ingredient: el.ingredientLines,
-
+                                    arr.push({
+                                          name: el.recipe.label,
+                                          ingredient: el.recipe.ingredientLines,
+                                          calories: el.recipe.calories
                                     })
                               })
-                        res.send(response.data)
+
+                        res.send(arr)
+                        // console.log(result);
                   })
                   .catch(err => {
                         res.send(err)
