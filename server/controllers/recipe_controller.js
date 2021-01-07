@@ -1,5 +1,4 @@
 const { Recipe } = require('../models')
-const axios = require('axios')
 
 class RecipeController {
       static getRecipe(req, res, next) {
@@ -8,110 +7,80 @@ class RecipeController {
                         res.status(200).json(data)
                   })
                   .catch(err => {
-                        next("internalError")
-                        // res.send(err)
+                        next(err)
                   })
       }
 
       static getOneRecipe(req, res, next) {
-            let id = req.params.id
-
-            Recipe.findOne({
-            where: {id}
-            }) 
-            .then(data => {
-                  res.status(200).json(data)
-            })
-            .catch(err => {
-                  next("internalError")
-            })
+            let id = +req.params.id
+            Recipe.findByPk(id)
+                  .then(data => {
+                        data ? res.status(200).json(data) :
+                        next({ name: "notFound" })
+                  })
+                  .catch(err => {
+                        next(err)
+                  })
       }
       
-
       static createRecipe(req, res, next) {
             let newRecipe = {
                   name: req.body.name,
                   description: req.body.description,
                   step: req.body.step,
-                  ingredient: req.body.ingredient
-            }
-
-            let newIngredient = {
-                  name: req.body.ingredientName
+                  ingredient: req.body.ingredient,
+                  UserId: req.userData.id
             }
             
             Recipe.create(newRecipe) 
                   .then(data => {
                         res.status(201).json(data)
-                        // res.send(data)
-                        // console.log(data);
-                         return Ingredient.create(newIngredient)
-                  })
-                  .then(data => {
-
-                        
                   })
                   .catch(err => {
-                        next("SequelizeValidationError")
-                        // res.send(err)
+                        next(err)
                   })
-
       }
 
       static updateRecipe(req, res, next) {
             let updatedRecipe = {
                   name: req.body.name,
                   description: req.body.description,
-                  steps: req.body.steps,
+                  step: req.body.step,
                   ingredient: req.body.ingredient
             }
 
-            Recipe.update(updatedRecipe)
+            Recipe.update(updatedRecipe, {
+                        where: {id: +req.params.id},
+                        returning: true,
+                        plain:true
+                  })
                   .then(data => {
-                        res.status(200).json(data)
+                        const { id, name, description, step, ingredient } = data[1].dataValues
+                        res.status(200).json({ id, name, description, step, ingredient })
                   })
                   .catch(err => {
-                        next("SequelizeValidationError")
+                        next(err)
                   })
       }
 
       static deleteRecipe(req, res, next) {
             let id = req.params.id
-            Recipe.destroy({where: {id}})
-                  .then( data => {
+            Recipe.destroy({
+                        where : { id },
+                        returning: true,
+                  })
+                  .then(data => {
+                        data ? res.status(200).json({
+                              message: 'recipe delete successfully'
+                        }) :
+                        next({name: 'notFound'})
                         res.status(200).json({message: "recipe delete successfully"})
                   })
                   .catch(err => {
-                        next("notFound")
+                        next(err)
                   })
       }
 
-      static searchRecipe(req, res, next) {
-            let meal = req.query.s
-                  console.log(meal);
-            let foodRecipe = `https://api.edamam.com/search?q=${meal}&app_id=23daa481&app_key=2d7e52cf491550c383b2b56ae595fd54&from=0&to=3&calories=591-722&health=alcohol-free`
-
-            axios.get(foodRecipe)
-                  .then(response => {
-                        // console.log(response.data);
-                        let result = response.data.hits
-
-                        let arr = []
-                              result.forEach(el => {
-                                    arr.push({
-                                          name: el.recipe.label,
-                                          ingredient: el.recipe.ingredientLines,
-                                          calories: el.recipe.calories
-                                    })
-                              })
-
-                        res.send(arr)
-                        // console.log(result);
-                  })
-                  .catch(err => {
-                        res.send(err)
-                  })
-      }
 }
 
 module.exports = RecipeController

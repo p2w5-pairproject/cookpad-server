@@ -34,6 +34,12 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
+    ingredient: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      }
+    },
     UserId: DataTypes.INTEGER
   }, {
     sequelize,

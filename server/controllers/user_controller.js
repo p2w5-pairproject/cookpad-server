@@ -68,7 +68,12 @@ class UserController {
             }
 
             const access_token = generateToken(_payload)
-            return res.status(200).json({access_token})
+            return res.status(200).json({
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                access_token: access_token
+            })
 
         } catch(error) {
             next(error)
