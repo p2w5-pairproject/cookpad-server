@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": "asdfasdf",
+    "username": "postgres",
+    "password": "postgres",
     "database": "p2w5_pairproject",
-    "host": "127.0.0.1",
+    "host": "localhost",
     "dialect": "postgres"
   },
   "test": {
