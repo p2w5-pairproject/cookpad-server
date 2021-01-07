@@ -1,5 +1,6 @@
 const { Recipe } = require('../models')
 const axios = require('axios')
+var unirest = require("unirest");
 
 class RecipeController {
       static getRecipe(req, res, next) {
@@ -93,8 +94,8 @@ class RecipeController {
 
             axios.get(foodRecipe)
                   .then(response => {
-                        // console.log(response.data);
-                        let result = response.data
+                        // console.log(response);
+                        let result = response.data.meals
 
                         let arr = []
                               result.forEach(el => {
