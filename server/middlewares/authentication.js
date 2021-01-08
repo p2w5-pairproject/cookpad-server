@@ -15,7 +15,7 @@ const authentication = (req, res, next) => {
                 })
                 .catch(err => next(err))
         }else {
-            next({name: 'notAuthorize'})
+            next({name: 'loginFirst'}) //UnauthorizedError
         }
     } catch (err) {
         next(err)

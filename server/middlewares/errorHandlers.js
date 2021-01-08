@@ -5,7 +5,7 @@ const errorHandlers = (error, req, res, next) => {
       // handle error dri validasi attribut model
       case "SequelizeValidationError":
         let msg = error.errors.map((err) => err.message)
-        res.status(400).json(msg)
+        res.status(400).json({msg})
         break;
 
       // handle error dari jwswebtoken
@@ -13,17 +13,22 @@ const errorHandlers = (error, req, res, next) => {
         res.status(404).json({msg:error})
         break;
 
+      // handle error dari contraint unique (email)
+      case 'SequelizeUniqueConstraintError':
+          res.status(404).json({msg:`${err.errors[0].value} already exists`})
+          break;
+
       // sisa nya custom error
       case "errorAuth":
         res.status(401).json({msg: 'Invalid email / password!'})
         break;
 
       case "notAuthorize":
-        res.status(401).json({msg: 'You do not have permission!'})
+        res.status(403).json({msg: 'You do not have permission!'}) //Forbidden Error (have token but cant access data)
         break;
 
       case "loginFirst":
-        res.status(401).json({msg: 'Please login first!'})
+        res.status(401).json({msg: 'Please login first!'}) //UnauthorizedError (dont have token)
         break;
 
       case "notFound":
