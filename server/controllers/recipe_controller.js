@@ -2,7 +2,7 @@ const { Recipe } = require('../models')
 
 class RecipeController {
       static getRecipe(req, res, next) {
-            Recipe.findAll() 
+            Recipe.findAll()
                   .then(data => {
                         res.status(200).json(data)
                   })
@@ -22,7 +22,7 @@ class RecipeController {
                         next(err)
                   })
       }
-      
+
       static createRecipe(req, res, next) {
             let newRecipe = {
                   name: req.body.name,
@@ -31,8 +31,8 @@ class RecipeController {
                   ingredient: req.body.ingredient,
                   UserId: req.userData.id
             }
-            
-            Recipe.create(newRecipe) 
+
+            Recipe.create(newRecipe)
                   .then(data => {
                         res.status(201).json(data)
                   })
@@ -74,7 +74,6 @@ class RecipeController {
                               message: 'recipe delete successfully'
                         }) :
                         next({name: 'notFound'})
-                        res.status(200).json({message: "recipe delete successfully"})
                   })
                   .catch(err => {
                         next(err)

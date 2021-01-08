@@ -22,11 +22,10 @@ class APIController {
                             })
                         })
 
-                res.send(arr)
-                // console.log(result);
+                res.status(200).json(arr)
             })
             .catch(err => {
-                res.send(err)
+                next(err)
             })
     }
 }

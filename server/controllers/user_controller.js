@@ -12,7 +12,9 @@ class UserController {
                 const { id, email, name } = newUser
                 res.status(201).json({ id, email, name })
             })
-            .catch(err => res.status(400).json(err))
+            .catch(err => {
+                res.status(400).json(err)
+            })
     }
 
     static login(req, res, next) {
