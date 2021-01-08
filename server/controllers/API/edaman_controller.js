@@ -6,7 +6,8 @@ class APIController {
     }
     static searchRecipe(req, res, next) {
         let meal = req.query.s
-        let foodRecipe = `https://api.edamam.com/search?q=${meal}&app_id=23daa481&app_key=2d7e52cf491550c383b2b56ae595fd54&from=0&to=3&calories=591-722&health=alcohol-free`
+        let edamanKey = process.env.EDAMAN_API_KEY
+        let foodRecipe = `https://api.edamam.com/search?q=${meal}&app_id=23daa481&app_key=${edamanKey}`
 
         axios.get(foodRecipe)
             .then(response => {

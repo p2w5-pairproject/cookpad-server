@@ -1,0 +1,3 @@
+api key = 3606bf81e8abe6340c05bda743c6cbd0
+
+curl -X GET --header "Accept: application/json" --header "user-key: 3606bf81e8abe6340c05bda743c6cbd0" "https://developers.zomato.com/api/v2.1/search?entity_type=city&q=pizza"
