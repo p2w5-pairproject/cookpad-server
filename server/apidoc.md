@@ -435,3 +435,40 @@ _Response (err)_
 }
 ```
 ---
+
+### GET /weather
+> Get weather API
+
+_Request Params_
+```
+Not needed
+```
+
+_Request Header_
+```
+Not needed
+```
+
+_Request Body_
+```
+Not needeed
+```
+
+_Response (200)_
+```
+{
+  "timezone": <timezone>
+  "city_name": <city_name>
+  "description": <description>
+  "icon": <icon>
+}
+
+```
+
+_Response (err)_
+```
+{
+  "message": <given by sistem>
+}
+```
+---
