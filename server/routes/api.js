@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const APIController = require('../controllers/api_controller')
+const edaman = require('./API/edaman')
 
-router.get('/search', APIController.searchRecipe)
+router.use(edaman)
 
 module.exports = router
